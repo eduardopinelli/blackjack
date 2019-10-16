@@ -1,0 +1,26 @@
+pergunta_incial = input("Olá, seja bem vindo ao jogo de BlackJack! Já conhece as regras do jogo? ")
+
+def verifica_prontidao(pergunta_inicial):
+    if pergunta_incial == "sim" or pergunta_incial == "s":
+        return "Ótimo! Vamos começar então!"
+    else:
+         segunda_pergunta = input("É um jogo fácil de entender, com apenas alguns pontos a comentar. \n"
+         "N° 1: Os valores das cartas são definidas por seus respectivos números, para as cartas númericas. \n"
+         "Para as cartas com letras, o valor é de 10 para Valete, Dama e Rei. \n"
+         "E para o Ás, o valor pode ser 1 ou 11, dependendo do que favorecer o jogador. \n"
+         "N° 2: O objetivo principal é aproximar-se o máximo possível a 21, sem estourar o limite \n"
+         "Caso o jogador vença o croupier, ele recebe o mesmo valor da aposta, no entanto, no caso da derrota, \n"
+         "o jogador perde o valor apostado. No caso de empate, o valor apostado é retornado e ninguém perde ou vence. \n"
+         "N° 3: Caso o jogador obtenha 21 com as duas primeiras cartas recebidas, ele recebe 1,5 vezes o valor \n"
+         "apostado. Se o jogador não obtiver 21 com as duas primeiras, ele pode pedir ao croupier mais uma carta \n"
+         "para continuar buscando a vitória. \n"
+         ""
+         "Estas são as noções básicas, entendeu e está pronto para continuar? ")
+    if segunda_pergunta == "sim" or segunda_pergunta == "s":
+        return "Ótimo! Vamos começar então!"
+    else:
+        while segunda_pergunta != "sim" or segunda_pergunta != "s":
+            return verifica_prontidao(pergunta_inicial)
+
+print(verifica_prontidao(pergunta_incial))
+
