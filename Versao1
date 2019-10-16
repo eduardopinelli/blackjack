@@ -1,3 +1,5 @@
+import random
+#INTRODUCAO
 pergunta_incial = input("Olá, seja bem vindo ao jogo de BlackJack! Já conhece as regras do jogo? ")
 
 def verifica_prontidao(pergunta_inicial):
@@ -14,6 +16,7 @@ def verifica_prontidao(pergunta_inicial):
          "N° 3: Caso o jogador obtenha 21 com as duas primeiras cartas recebidas, ele recebe 1,5 vezes o valor \n"
          "apostado. Se o jogador não obtiver 21 com as duas primeiras, ele pode pedir ao croupier mais uma carta \n"
          "para continuar buscando a vitória. \n"
+         ""
          "Estas são as noções básicas, entendeu e está pronto para continuar? ")
     if segunda_pergunta == "sim" or segunda_pergunta == "s":
         return "Ótimo! Vamos começar então!"
@@ -22,4 +25,40 @@ def verifica_prontidao(pergunta_inicial):
             return verifica_prontidao(pergunta_inicial)
 
 print(verifica_prontidao(pergunta_incial))
+#COMECANDO A ORGANIZAR O COMECO DAS JOGADAS
+A = 11
+J = 10
+Q = 10
+K = 10
+
+cartas = [A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K]
+mao = []
+
+#FUNCAO PARA O CROUPIER PEGAR UMA CARTA
+def pegar_carta(cartas):
+    carta_selecionada = random.choice(cartas)
+    if carta_selecionada not in mao:
+        mao.append(carta_selecionada)
+    else:
+        pegar_carta(cartas)
+
+
+#CARTEIRA DO JOGADOR, QUANTO ELE TEM PARA APOSTAR
+carteira = 100
+
+#COMECO DO JOGO
+aposta = int(input("Insira um valor inteiro que deseja apostar: "))
+
+if aposta > carteira:
+    print("Saldo insuficiente para aposta... tente um valor menor")
+elif aposta <= 0:
+    print("Aposta menor ou igual a zero, tente apostar um valor inteiro maior que zero")
+
+
+pegar_carta(cartas)
+pegar_carta(cartas)
+print("Suas duas primeiras cartas são: {0} e {1}, totalizando {2}".format(mao[0], mao[1], mao[0] + mao[1]))
+
+
+
 
