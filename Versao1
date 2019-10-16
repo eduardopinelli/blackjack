@@ -14,7 +14,6 @@ def verifica_prontidao(pergunta_inicial):
          "N° 3: Caso o jogador obtenha 21 com as duas primeiras cartas recebidas, ele recebe 1,5 vezes o valor \n"
          "apostado. Se o jogador não obtiver 21 com as duas primeiras, ele pode pedir ao croupier mais uma carta \n"
          "para continuar buscando a vitória. \n"
-         ""
          "Estas são as noções básicas, entendeu e está pronto para continuar? ")
     if segunda_pergunta == "sim" or segunda_pergunta == "s":
         return "Ótimo! Vamos começar então!"
