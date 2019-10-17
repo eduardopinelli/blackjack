@@ -1,7 +1,7 @@
 import random
 import sys
 #INTRODUCAO
-pergunta_incial = input("Olá, seja bem vindo ao jogo de BlackJack! Já conhece as regras do jogo? ")
+pergunta_incial = input("Olá, seja bem vindo ao jogo de BlackJack! Já conhece as regras do jogo? (sim/nao) ")
 
 def verifica_prontidao(pergunta_inicial):
     if pergunta_incial == "sim" or pergunta_incial == "s":
@@ -19,7 +19,7 @@ def verifica_prontidao(pergunta_inicial):
          "para continuar buscando a vitória. \n"
          "N° 4: Em todo fim de jogada você pode desistir da partida, basta dizer 'fim' para o croupier \n"
           ""
-         "Estas são as noções básicas, entendeu e está pronto para continuar? ")
+         "Estas são as noções básicas, entendeu e está pronto para continuar? (sim/nao)")
     if segunda_pergunta == "sim" or segunda_pergunta == "s":
         return "Ótimo! Vamos começar então!"
     else:
@@ -33,91 +33,125 @@ J = 10
 Q = 10
 K = 10
 
-cartas = [A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K]
+cartas = {"A♥" : 11, "2♥" : 2, "3♥" : 3, "4♥" : 4, "5♥" : 5, "6♥" : 6, "7♥" : 7, "8♥" : 8, "9♥" : 9, "10♥" : 10, "J♥" : 10, "Q♥" : 10, "K♥" : 10,
+          "A♦" : 11, "2♦" : 2, "3♦" : 3, "4♦" : 4, "5♦" : 5, "6♦" : 6, "7♦" : 7, "8♦" : 8, "9♦" : 9, "10♦" : 10, "J♦" : 10, "Q♦" : 10, "K♦" : 10,
+          "A♣" : 11, "2♣" : 2, "3♣" : 3, "4♣" : 4, "5♣" : 5, "6♣" : 6, "7♣" : 7, "8♣" : 8, "9♣" : 9, "10♣" : 10, "J♣" : 10, "Q♣" : 10, "K♣" : 10,
+          "A♠" : 11, "2♠" : 2, "3♠" : 3, "4♠" : 4, "5♠" : 5, "6♠" : 6, "7♠" : 7, "8♠" : 8, "9♠" : 9, "10♠" : 10, "J♠" : 10, "Q♠" : 10, "K♠" : 10}
 maoj = []
 maoc = []
 #FUNCAO PARA O CROUPIER PEGAR UMA CARTA PARA O JOGADOR
 def pegar_carta_j(cartas):
-    carta_selecionada = random.choice(cartas)
+    carta_selecionada = random.choice(list(cartas))
     if carta_selecionada not in maoj and carta_selecionada not in maoc:
         maoj.append(carta_selecionada)
+    elif carta_selecionada == 11:
+        if carta_selecionada + total_j > 21:
+            substituir = maoc.index(11)
+            maoc[substituir] = 1
     else:
         pegar_carta_j(cartas)
 
 #FUNCAO PARA O CROUPIER PEGAR UMA CARTA PARA SI
 def pegar_carta_c(cartas):
-    carta_selecionada = random.choice(cartas)
+    carta_selecionada = random.choice(list(cartas))
     if carta_selecionada not in maoc and carta_selecionada not in maoj:
         maoc.append(carta_selecionada)
+    elif carta_selecionada == 11:
+        if carta_selecionada + total_c > 21:
+            substituir2 = maoj.index(11)
+            maoj[substituir2] = 1
     else:
         pegar_carta_c(cartas)
 
 #CARTEIRA DO JOGADOR, QUANTO ELE TEM PARA APOSTAR
-carteira = 100
+
+
+x = True
 
 #COMECO DO JOGO
-pergunta_comeco_jogo = str(input("Para apostar um valor, digite 'aposta'. Para encerrar o jogo, digite 'fim'. "))
+def comecar_jogo():
+    carteira = 100
+    aposta = 0
+    pergunta_comeco_jogo = str(input("\n"
+                                    "Sua carteira inicial é de {} reais \n"
+                                    "Para apostar um valor, digite 'aposta'. Para encerrar o jogo, digite 'fim'. ".format(carteira)))
+   
+    #FEATURES 1 E 2
+    if pergunta_comeco_jogo == "fim":
+        print("Jogo encerrado! Até a próxima! \n"
+        "Saldo final do jogador: {}".format(carteira))
+        x = False
+        sys.exit()
+    elif pergunta_comeco_jogo == "aposta":
+        aposta = int(input("Quanto deseja apostar? "))
+        if aposta > carteira:
+            print("Saldo insuficiente para aposta... tente um valor menor")
+        elif aposta <= 0:
+            print("Aposta menor ou igual a zero, tente apostar um valor inteiro maior que zero")
 
-#FEATURES 1 E 2
-if pergunta_comeco_jogo == "fim":
-    print("Jogo encerrado! Até a próxima! \n"
-          "Saldo final do jogador: {}".format(carteira))
-    sys.exit()
-elif pergunta_comeco_jogo == "aposta":
-    aposta = int(input("Quanto deseja apostar? "))
-    if aposta > carteira:
-        print("Saldo insuficiente para aposta... tente um valor menor")
-    elif aposta <= 0:
-        print("Aposta menor ou igual a zero, tente apostar um valor inteiro maior que zero")
+    carteira -= aposta
 
-carteira -= aposta
-
-pegar_carta_c(cartas)
-pegar_carta_c(cartas)
-total_c = maoc[0] + maoc[1]
-print("As duas primeiras cartas do croupier são: {0} e {1}, totalizando {2}".format(maoc[0], maoc[1],total_c))
-
-pegar_carta_j(cartas)
-pegar_carta_j(cartas)
-total_j = maoj[0] + maoj[1]
-print("Suas duas primeiras cartas são: {0} e {1}, totalizando {2}".format(maoj[0], maoj[1], total_j))
-
-if maoc[0] + maoc[1] == 21:
-    print("Uma pena! O croupier venceu logo de primeira! Você perdeu este jogo.")
-    sys.exit()
-elif maoj[0] + maoj[1] == 21:
-    print("Blackjack! Parabéns você venceu logo de primeira! Sua carteira será atualizada ao receber seu prêmio! ")
-    carteira += aposta * 2.5
-
-prox_jogada = input("Responda 'continuar' para continuar jogando e receber mais carta, ou responda 'parar' para encerrar o jogo: ")
-
-if prox_jogada == "continuar":
     pegar_carta_c(cartas)
-    total_c += maoc[2]
-    print("Total atual do croupier: {}".format(total_c))
-    if total_c == 21:
-        print("Uma pena! O croupier venceu! Você perdeu este jogo.")
-        sys.exit()
-    elif total_c > 21:
-        print("O croupier estourou o limite de 21! Você venceu!")
-        carteira += aposta * 2
+    pegar_carta_c(cartas)
+    total_c = cartas[maoc[0]] + cartas[maoc[1]]
+    print("As duas primeiras cartas do croupier são: {0} e {1}, totalizando {2}".format(maoc[0], maoc[1],total_c))
+
     pegar_carta_j(cartas)
-    total_j += maoj[2]
-    print("Total atual do jogador: {}".format(total_j))
-    if total_j == 21:
-        print("Blackjack! Você venceu o jogou!")
-        carteira += aposta * 2
-    elif total_j > 21:
-        print("Você estourou o limite de 21! Você perdeu!")
-        sys.exit()
-elif prox_jogada == "fim":
-    print("Jogo encerrado! Até a próxima!")
-    sys.exit()
-elif prox_jogada == "parar":
-    while total_c < 17:
+    pegar_carta_j(cartas)
+    total_j = cartas[maoj[0]] + cartas[maoj[1]]
+    print("Suas duas primeiras cartas são: {0} e {1}, totalizando {2}".format(maoj[0], maoj[1], total_j))
+
+    if total_c == 21:
+        print("Uma pena! O croupier venceu logo de primeira! Você perdeu este jogo.")
+        comecar_jogo()
+    elif total_j == 21:
+        print("Blackjack! Parabéns você venceu logo de primeira! Sua carteira será atualizada ao receber seu prêmio! ")
+        carteira += aposta * 2.5
+        comecar_jogo()
+
+    prox_jogada = input("Responda 'continuar' para continuar jogando e receber mais carta, ou responda 'parar' para encerrar o jogo: ")
+
+    if prox_jogada == "continuar":
+        pegar_carta_j(cartas)
+        total_j += cartas[maoj[2]]
+        print("Você recebeu a carta: {}".format(maoj[2]))
+        print("Seu total atual: {}".format(total_j))
+        if total_j == 21:
+            print("Blackjack! Você venceu o jogou!")
+            carteira += aposta * 2
+            comecar_jogo()
+        elif total_j > 21:
+            print("Você estourou o limite de 21! Você perdeu!")
+            comecar_jogo()
         pegar_carta_c(cartas)
-        for i in range(len(maoc)):
-            i = 2
-            total_c += maoc[i]
-            i += 1
-    print("O total do croupier é: {}".format(total_c))
+        total_c += cartas[maoc[2]]
+        print("O croupier recebeu a carta: {}".format(maoc[2]))
+        print("Total atual do croupier: {}".format(total_c))
+        if total_c == 21:
+            print("Uma pena! O croupier venceu! Você perdeu este jogo.")
+            comecar_jogo()
+        elif total_c > 21:
+            print("O croupier estourou o limite de 21! Você venceu!")
+            carteira += aposta * 2
+            print("Sua carteira atualizada: {}".format(carteira))
+            comecar_jogo()
+
+    elif prox_jogada == "fim":
+        print("Jogo encerrado! Até a próxima!")
+        x = False
+
+    elif prox_jogada == "parar":
+        while total_c < 17:
+            pegar_carta_c(cartas)
+            for i in range(len(maoc)):
+                i = 2
+                total_c += cartas[maoc[i]]
+                i += 1
+        print("O total do croupier é: {}".format(total_c))
+    comecar_jogo()
+    if carteira == 0:
+        x = False
+
+
+while x != False:
+    comecar_jogo()
